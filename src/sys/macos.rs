@@ -4,23 +4,12 @@
 //!
 //! [`IOPMAssertionCreateWithName`]: https://developer.apple.com/documentation/iokit/1557134-iopmassertioncreatewithname
 
+mod iokit;
+use self::iokit::*;
 use anyhow::{anyhow, Result};
-use apple_sys::IOKit::{
-    kIOPMAssertionLevelOn, kIOReturnSuccess, CFStringRef, IOPMAssertionCreateWithName,
-    IOPMAssertionRelease,
-};
-use core_foundation::{base::TCFType, string::CFString};
+use core_foundation::{base::TCFType, string::CFString, string::CFStringRef};
 
 use crate::Builder;
-
-#[allow(non_upper_case_globals)]
-const kIOPMAssertionTypePreventUserIdleSystemSleep: &str = "PreventUserIdleSystemSleep";
-
-#[allow(non_upper_case_globals)]
-const kIOPMAssertionTypePreventUserIdleDisplaySleep: &str = "PreventUserIdleDisplaySleep";
-
-#[allow(non_upper_case_globals)]
-const kIOPMAssertionTypePreventSystemSleep: &str = "PreventSystemSleep";
 
 pub struct Awake {
     options: Builder,
